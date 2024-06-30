@@ -1,87 +1,87 @@
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class Notebook {
-
     private String name;
+    private int ram;
+    private int ssd;
+    private String operationSystem;
+    private String color;
+    private int numberCoresProc;
+    private int frecuencyProc;
 
-    private int amountRAM;
-    private String operatingSystem;
-    private int price;
-    private String model;
-
-    public Notebook(String name, int amountRAM, String operatingSystem, int price, String model) {
+    public Notebook(String name, int ram, int ssd, String operationSystem, String color, int numberCoresProc, int frecuencyProc) {
         this.name = name;
-        this.amountRAM = amountRAM;
-        this.operatingSystem = operatingSystem;
-        this.price = price;
-        this.model = model;
+        this.ram = ram;
+        this.ssd = ssd;
+        this.operationSystem = operationSystem;
+        this.color = color;
+        this.numberCoresProc = numberCoresProc;
+        this.frecuencyProc = frecuencyProc;
     }
 
-    public boolean validateObject(){
-        return true;
+    public int getRam(){
+        return ram;
     }
 
-    public static List<String> propertiesForFilter(){
-        List<String> list = new ArrayList<>();
-        list.add("amountRAM");
-        list.add("operatingSystem");
-        list.add("price");
-        list.add("model");
+    public int getSsd(){
+        return ssd;
+    }
 
-        return list;
+    public String getOperationSystem(){
+        return operationSystem;
+    }
 
+    public String getColor(){
+        return color;
+    }
+
+    public int getNumnerCoresProc(){
+        return numberCoresProc;
+    }
+
+    public int getFrecuenceProc(){
+        return frecuencyProc;
+    }
+
+    public void setRam(int ram){
+        this.ram = ram;
+    }
+    public void setSdd(int ssd){
+        this.ssd = ssd;
+    }
+    public void setOperationSystem(String operationSystem){
+        this.operationSystem = operationSystem;
+    }
+    public void setColor(String color){
+        this.color = color;
+    }
+    public void setNumberProcCores(int numberCoresProc){
+        this.numberCoresProc = numberCoresProc;
+    }
+    public void setFrecuenceProc(int frecuencyProc){
+        this.frecuencyProc = frecuencyProc;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(obj == null || getClass() != obj.getClass()) return false;
+        Notebook nb = (Notebook) obj;
+        return ram== nb.ram && 
+            ssd== nb.ssd && 
+            operationSystem.equals(nb.operationSystem) && 
+            color.equals(nb.color) && 
+            numberCoresProc== nb.numberCoresProc && 
+            frecuencyProc == nb.frecuencyProc;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ram, ssd, color, operationSystem, numberCoresProc, frecuencyProc);
     }
 
     @Override
     public String toString() {
-        return "Ноутбук: (" + name + "): " +
-                "количество опретивной памяти:" + amountRAM +
-                ", операционная система: " + operatingSystem + '\'' +
-                ", цена: " + price +
-                ", модель: " + model;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAmountRAM() {
-        return amountRAM;
-    }
-
-    public void setAmountRAM(int amountRAM) {
-        this.amountRAM = amountRAM;
-    }
-
-    public String getOperatingSystem() {
-        return operatingSystem;
-    }
-
-    public void setOperatingSystem(String operatingSystem) {
-        this.operatingSystem = operatingSystem;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
+        return name + " Оперативная память: " + ram + ", Объём жёсткого диска: " + ssd + ", Операционная система: " + operationSystem + ", Цвет: " + color + ", Количество ядер процессора: " + numberCoresProc + ", Частота процессора: " + frecuencyProc + "\n";
     }
 }
