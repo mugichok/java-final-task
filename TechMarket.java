@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -17,46 +18,49 @@ public class TechMarket {
         Notebook hp = new Notebook("hp", 4, 2048, "linux", "white", 8, 4500);
         Notebook msi = new Notebook("msi", 4, 1536, "linux", "black", 4, 1700);
         Notebook huawei = new Notebook("huawei", 32, 1024, "Windowsd 10", "orange", 10, 3800);
-        Set<Notebook> chosenNotebooks = new HashSet<>();
         Set<Notebook> notebooks = new HashSet<>(
         Arrays.asList(macBook1, acer, asus, lenovo, macBook14, msi, samsung, hp, huawei));
         Scanner scanner = new Scanner(System.in);
+        Set<Notebook> chosenNotebooks = new HashSet<>();
+        Iterator<Notebook> item = chosenNotebooks.iterator();
         boolean flag = true;
-        System.out.println(hp.getColor());
 
         while (flag) {
+            item = chosenNotebooks.iterator();
             System.out.println(
                     "Выберите критерий для выборки ноутбуков, выведите список моделей или завершите программу: 1. Объём ОЗУ\n2. Объём жесткого диска\n3. Операционная система\n4. Цвет\n5. Количество ядер процессора\n6. Частота процессора\n7. Показать подходящие модели\n8. Завершить программу");
             String userInput = scanner.nextLine();
-            // if (checkInt(userInput)) {
-                int length = chosenNotebooks.size();
-                int i = 0;
+            int length = chosenNotebooks.size();
+            int i = 0;
 
                 if (userInput.equals("1")) {
                     System.out.println("Введите минимальное значение ОЗУ: ");
                     userInput = scanner.nextLine();
+
                     if (checkInt(userInput)) {
                         Integer userInputInt = Integer.parseInt(userInput);
-                        if (chosenNotebooks.isEmpty()) {
+
+                        if (!item.hasNext()) {
                             for (Notebook elem : notebooks) {
                                 if (elem.getRam() >= userInputInt) {
                                     chosenNotebooks.add(elem);
                                 }
                             }
-                            if (chosenNotebooks.isEmpty()) {
+
+                            if (!item.hasNext()) {
                                 System.out.println("Нет подходящих моделей(\n");
                             }
 
                         } else {
                             length = chosenNotebooks.size();
                             i = 0;
-                            for (Notebook elem : chosenNotebooks) {
-                                if (elem.getRam() >= userInputInt) {
-                                    chosenNotebooks.remove(elem);
-                                } else {
+                            while (item.hasNext()) {
+                                if (item.next().getRam() < userInputInt) {
+                                    item.remove();
                                     i++;
                                 }
                             }
+
                             if (length == i) {
                                 System.out.println("Нет подходящих моделей(\n");
                             }
@@ -70,13 +74,14 @@ public class TechMarket {
                     if(checkInt(userInput)){
                     Integer userInputInt = Integer.parseInt(userInput);
 
-                    if (chosenNotebooks.isEmpty()) {
+                    if (!item.hasNext()) {
                         for (Notebook elem : notebooks) {
                             if (elem.getSsd() >= userInputInt) {
                                 chosenNotebooks.add(elem);
                             }
                         }
-                        if (chosenNotebooks.isEmpty()) {
+
+                        if (!item.hasNext()) {
                             System.out.println("Нет подходящих моделей(\n");
                         }
 
@@ -84,13 +89,13 @@ public class TechMarket {
                         length = chosenNotebooks.size();
                         i = 0;
 
-                        for (Notebook elem : chosenNotebooks) {
-                            if (elem.getSsd() >= userInputInt) {
-                                chosenNotebooks.remove(elem);
-                            } else {
+                        while (item.hasNext()) {
+                            if (item.next().getSsd() < userInputInt) {
+                                item.remove();
                                 i++;
                             }
                         }
+
                         if (length == i) {
                             System.out.println("Нет подходящих моделей(\n");
                         }
@@ -101,26 +106,27 @@ public class TechMarket {
                     System.out.println("Введите нужную операционную систему: ");
                     userInput = scanner.nextLine();
 
-                    if (chosenNotebooks.isEmpty()) {
+                    if (!item.hasNext()) {
                         for (Notebook elem : notebooks) {
                             if (elem.getOperationSystem().toLowerCase().equals(userInput.toLowerCase())) {
                                 chosenNotebooks.add(elem);
                             }
                         }
-                        if (chosenNotebooks.isEmpty()) {
+                        
+                        if (!item.hasNext()) {
                             System.out.println("Нет подходящих моделей(\n");
                         }
 
                     } else {
                         length = chosenNotebooks.size();
                         i = 0;
-                        for (Notebook elem : chosenNotebooks) {
-                            if (!elem.getOperationSystem().toLowerCase().equals(userInput.toLowerCase())) {
-                                chosenNotebooks.remove(elem);
-                            } else {
+                        while (item.hasNext()) {
+                            if (!item.next().getOperationSystem().toLowerCase().equals(userInput.toLowerCase())) {
+                                item.remove();
                                 i++;
                             }
                         }
+
                         if (length == i) {
                             System.out.println("Нет подходящих моделей(\n");
                         }
@@ -130,24 +136,24 @@ public class TechMarket {
                     System.out.println("Введите нужный цвет: ");
                     userInput = scanner.nextLine();
                     
-                    if (chosenNotebooks.isEmpty()) {
+                    if (!item.hasNext()) {
                         for (Notebook elem : notebooks) {
                             if (elem.getColor().toLowerCase().equals(userInput.toLowerCase())) {
                                 chosenNotebooks.add(elem);
                             }
                         }
-                        System.out.println(chosenNotebooks);
-                        if (chosenNotebooks.isEmpty()) {
+
+                        if (!item.hasNext()) {
                             System.out.println("Нет подходящих моделей(\n");
                         }
 
                     } else {
                         length = chosenNotebooks.size();
                         i = 0;
-
-                        for (Notebook elem : chosenNotebooks) {
-                            if (!elem.getColor().toLowerCase().equals(userInput.toLowerCase())) {
-                                chosenNotebooks.remove(elem);
+                        
+                        while (item.hasNext()) {
+                            if (!item.next().getColor().toLowerCase().equals(userInput.toLowerCase())) {
+                                item.remove();
                                 i++;
                             }
                         }
@@ -156,33 +162,32 @@ public class TechMarket {
                             System.out.println("Нет подходящих моделей(\n");
                         }
                     }
-                }
 
-                else if (userInput.equals("5")) {
+                } else if (userInput.equals("5")) {
                     System.out.println("Введите минимальное количество ядер процессора: ");
                     userInput = scanner.nextLine();
 
                     if(checkInt(userInput)){
                     Integer userInputInt = Integer.parseInt(userInput);
 
-                    if (chosenNotebooks.isEmpty()) {
-                        for (Notebook elem : chosenNotebooks) {
-                            if (elem.getNumnerCoresProc() == userInputInt) {
-                                chosenNotebooks.remove(elem);
+                    if (!item.hasNext()) {
+                        for (Notebook elem : notebooks) {
+                            if (elem.getNumnerCoresProc() >= userInputInt) {
+                                chosenNotebooks.add(elem);
                             }
                         }
 
-                        if (chosenNotebooks.isEmpty()) {
+                        if (!item.hasNext()) {
                             System.out.println("Нет подходящих моделей(\n");
                         }
+
                     } else {
                         length = chosenNotebooks.size();
                         i = 0;
 
-                        for (Notebook elem : chosenNotebooks) {
-                            if (elem.getNumnerCoresProc() >= userInputInt) {
-                                chosenNotebooks.remove(elem);
-                            } else {
+                        while (item.hasNext()) {
+                            if (item.next().getNumnerCoresProc() < userInputInt) {
+                                item.remove();
                                 i++;
                             }
                         }
@@ -200,13 +205,14 @@ public class TechMarket {
                     if(checkInt(userInput)){
                     Integer userInputInt = Integer.parseInt(userInput);
 
-                    if (chosenNotebooks.isEmpty()) {
+                    if (!item.hasNext()) {
                         for (Notebook elem : notebooks) {
                             if (elem.getFrecuenceProc() >= userInputInt) {
                                 chosenNotebooks.add(elem);
                             }
                         }
-                        if (chosenNotebooks.isEmpty()) {
+                        
+                        if (!item.hasNext()) {
                             System.out.println("Нет подходящих моделей(\n");
                         }
 
@@ -214,10 +220,9 @@ public class TechMarket {
                         length = chosenNotebooks.size();
                         i = 0;
 
-                        for (Notebook elem : chosenNotebooks) {
-                            if (elem.getFrecuenceProc() >= userInputInt) {
-                                chosenNotebooks.remove(elem);
-                            } else {
+                        while (item.hasNext()) {
+                            if (item.next().getFrecuenceProc() < userInputInt) {
+                                item.remove();
                                 i++;
                             }
                         }
@@ -240,9 +245,10 @@ public class TechMarket {
                 } else if (userInput.equals("8")) {
                     flag = false;
 
+                } else {
+                    System.out.println("Вы введи некорректные данные, попробуйте ещё раз;)");
                 }
 
-            // }
         }
         scanner.close();
     }
