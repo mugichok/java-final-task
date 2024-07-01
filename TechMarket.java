@@ -1,9 +1,6 @@
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -19,59 +16,54 @@ public class TechMarket {
         Notebook msi = new Notebook("msi", 4, 1536, "linux", "black", 4, 1700);
         Notebook huawei = new Notebook("huawei", 32, 1024, "Windowsd 10", "orange", 10, 3800);
         Set<Notebook> notebooks = new HashSet<>(
-        Arrays.asList(macBook1, acer, asus, lenovo, macBook14, msi, samsung, hp, huawei));
+                Arrays.asList(macBook1, acer, asus, lenovo, macBook14, msi, samsung, hp, huawei));
         Scanner scanner = new Scanner(System.in);
+        filtrationNotebooks(notebooks, scanner);
+        scanner.close();
+    }
+
+    private static void filtrationNotebooks(Set<Notebook> notebooks, Scanner scanner) {
         Set<Notebook> chosenNotebooks = new HashSet<>();
         Iterator<Notebook> item = chosenNotebooks.iterator();
         boolean flag = true;
+        boolean flag1 = true;
 
         while (flag) {
+            flag1 = true;
             item = chosenNotebooks.iterator();
             System.out.println(
-                    "Выберите критерий для выборки ноутбуков, выведите список моделей или завершите программу: 1. Объём ОЗУ\n2. Объём жесткого диска\n3. Операционная система\n4. Цвет\n5. Количество ядер процессора\n6. Частота процессора\n7. Показать подходящие модели\n8. Завершить программу");
+                    "Выберите критерий для выборки ноутбуков, выведите список моделей или завершите программу:\n1. Объём ОЗУ\n2. Объём жесткого диска\n3. Операционная система\n4. Цвет\n5. Количество ядер процессора\n6. Частота процессора\n7. Показать подходящие модели\n8. Завершить программу\n9.Сбросить фильры");
             String userInput = scanner.nextLine();
-            int length = chosenNotebooks.size();
-            int i = 0;
 
-                if (userInput.equals("1")) {
-                    System.out.println("Введите минимальное значение ОЗУ: ");
-                    userInput = scanner.nextLine();
+            if (userInput.equals("1")) {
+                System.out.println("Введите минимальное значение ОЗУ: ");
+                userInput = scanner.nextLine();
 
-                    if (checkInt(userInput)) {
-                        Integer userInputInt = Integer.parseInt(userInput);
+                if (checkInt(userInput)) {
+                    Integer userInputInt = Integer.parseInt(userInput);
 
-                        if (!item.hasNext()) {
-                            for (Notebook elem : notebooks) {
-                                if (elem.getRam() >= userInputInt) {
-                                    chosenNotebooks.add(elem);
-                                }
+                    if (!item.hasNext()) {
+                        for (Notebook elem : notebooks) {
+                            if (elem.getRam() >= userInputInt) {
+                                chosenNotebooks.add(elem);
                             }
+                        }
 
-                            if (!item.hasNext()) {
-                                System.out.println("Нет подходящих моделей(\n");
-                            }
+                    } else {
 
-                        } else {
-                            length = chosenNotebooks.size();
-                            i = 0;
-                            while (item.hasNext()) {
-                                if (item.next().getRam() < userInputInt) {
-                                    item.remove();
-                                    i++;
-                                }
-                            }
-
-                            if (length == i) {
-                                System.out.println("Нет подходящих моделей(\n");
+                        while (item.hasNext()) {
+                            if (item.next().getRam() < userInputInt) {
+                                item.remove();
                             }
                         }
                     }
+                }
 
-                } else if (userInput.equals("2")) {
-                    System.out.println("Введите минимальное значение Объёма жёсткого диска: ");
-                    userInput = scanner.nextLine();
+            } else if (userInput.equals("2")) {
+                System.out.println("Введите минимальное значение объёма жёсткого диска: ");
+                userInput = scanner.nextLine();
 
-                    if(checkInt(userInput)){
+                if (checkInt(userInput)) {
                     Integer userInputInt = Integer.parseInt(userInput);
 
                     if (!item.hasNext()) {
@@ -81,93 +73,64 @@ public class TechMarket {
                             }
                         }
 
-                        if (!item.hasNext()) {
-                            System.out.println("Нет подходящих моделей(\n");
-                        }
-
                     } else {
-                        length = chosenNotebooks.size();
-                        i = 0;
 
                         while (item.hasNext()) {
                             if (item.next().getSsd() < userInputInt) {
                                 item.remove();
-                                i++;
                             }
-                        }
-
-                        if (length == i) {
-                            System.out.println("Нет подходящих моделей(\n");
                         }
                     }
                 }
 
-                } else if (userInput.equals("3")) {
-                    System.out.println("Введите нужную операционную систему: ");
-                    userInput = scanner.nextLine();
+            } else if (userInput.equals("3")) {
+                System.out.println("Введите нужную операционную систему: ");
+                userInput = scanner.nextLine();
 
-                    if (!item.hasNext()) {
-                        for (Notebook elem : notebooks) {
-                            if (elem.getOperationSystem().toLowerCase().equals(userInput.toLowerCase())) {
-                                chosenNotebooks.add(elem);
-                            }
-                        }
-                        
-                        if (!item.hasNext()) {
-                            System.out.println("Нет подходящих моделей(\n");
-                        }
+                if (!item.hasNext()) {
 
-                    } else {
-                        length = chosenNotebooks.size();
-                        i = 0;
-                        while (item.hasNext()) {
-                            if (!item.next().getOperationSystem().toLowerCase().equals(userInput.toLowerCase())) {
-                                item.remove();
-                                i++;
-                            }
-                        }
-
-                        if (length == i) {
-                            System.out.println("Нет подходящих моделей(\n");
+                    for (Notebook elem : notebooks) {
+                        if (elem.getOperationSystem().toLowerCase().equals(userInput.toLowerCase())) {
+                            chosenNotebooks.add(elem);
                         }
                     }
 
-                } else if (userInput.equals("4")) {
-                    System.out.println("Введите нужный цвет: ");
-                    userInput = scanner.nextLine();
-                    
-                    if (!item.hasNext()) {
-                        for (Notebook elem : notebooks) {
-                            if (elem.getColor().toLowerCase().equals(userInput.toLowerCase())) {
-                                chosenNotebooks.add(elem);
-                            }
-                        }
+                } else {
 
-                        if (!item.hasNext()) {
-                            System.out.println("Нет подходящих моделей(\n");
+                    while (item.hasNext()) {
+                        if (!item.next().getOperationSystem().toLowerCase().equals(userInput.toLowerCase())) {
+                            item.remove();
                         }
+                    }
+                }
 
-                    } else {
-                        length = chosenNotebooks.size();
-                        i = 0;
-                        
-                        while (item.hasNext()) {
-                            if (!item.next().getColor().toLowerCase().equals(userInput.toLowerCase())) {
-                                item.remove();
-                                i++;
-                            }
-                        }
+            } else if (userInput.equals("4")) {
+                System.out.println("Введите нужный цвет: ");
+                userInput = scanner.nextLine();
 
-                        if (length == i) {
-                            System.out.println("Нет подходящих моделей(\n");
+                if (!item.hasNext()) {
+
+                    for (Notebook elem : notebooks) {
+                        if (elem.getColor().toLowerCase().equals(userInput.toLowerCase())) {
+                            chosenNotebooks.add(elem);
                         }
                     }
 
-                } else if (userInput.equals("5")) {
-                    System.out.println("Введите минимальное количество ядер процессора: ");
-                    userInput = scanner.nextLine();
+                } else {
 
-                    if(checkInt(userInput)){
+                    while (item.hasNext()) {
+                        if (!item.next().getColor().toLowerCase().equals(userInput.toLowerCase())) {
+                            item.remove();
+                        }
+                    }
+
+                }
+
+            } else if (userInput.equals("5")) {
+                System.out.println("Введите минимальное количество ядер процессора: ");
+                userInput = scanner.nextLine();
+
+                if (checkInt(userInput)) {
                     Integer userInputInt = Integer.parseInt(userInput);
 
                     if (!item.hasNext()) {
@@ -177,32 +140,21 @@ public class TechMarket {
                             }
                         }
 
-                        if (!item.hasNext()) {
-                            System.out.println("Нет подходящих моделей(\n");
-                        }
-
                     } else {
-                        length = chosenNotebooks.size();
-                        i = 0;
 
                         while (item.hasNext()) {
                             if (item.next().getNumnerCoresProc() < userInputInt) {
                                 item.remove();
-                                i++;
                             }
-                        }
-
-                        if (length == i) {
-                            System.out.println("Нет подходящих моделей(\n");
                         }
                     }
                 }
 
-                } else if (userInput.equals("6")) {
-                    System.out.println("Введите минимальное частоту процессора: ");
-                    userInput = scanner.nextLine();
+            } else if (userInput.equals("6")) {
+                System.out.println("Введите минимальное частоту процессора: ");
+                userInput = scanner.nextLine();
 
-                    if(checkInt(userInput)){
+                if (checkInt(userInput)) {
                     Integer userInputInt = Integer.parseInt(userInput);
 
                     if (!item.hasNext()) {
@@ -211,46 +163,45 @@ public class TechMarket {
                                 chosenNotebooks.add(elem);
                             }
                         }
-                        
-                        if (!item.hasNext()) {
-                            System.out.println("Нет подходящих моделей(\n");
-                        }
 
                     } else {
-                        length = chosenNotebooks.size();
-                        i = 0;
 
                         while (item.hasNext()) {
                             if (item.next().getFrecuenceProc() < userInputInt) {
                                 item.remove();
-                                i++;
                             }
                         }
-
-                        if (length == i) {
-                            System.out.println("Нет подходящих моделей(\n");
-                        }
                     }
                 }
 
-                } else if (userInput.equals("7")) {
-                    if (chosenNotebooks.isEmpty()) {
-                        System.out.println("вы не выбрали критерии для фильтрации либо нет подходящих моделей\n");
-                    } else {
-                        for (Notebook elem : chosenNotebooks) {
-                            System.out.println(elem.toString());
-                        }
-                    }
-
-                } else if (userInput.equals("8")) {
-                    flag = false;
+            } else if (userInput.equals("7")) {
+                if (chosenNotebooks.isEmpty()) {
+                    System.out.println("вы не выбрали критерии для фильтрации либо нет подходящих моделей\n");
 
                 } else {
-                    System.out.println("Вы введи некорректные данные, попробуйте ещё раз;)");
+                    for (Notebook elem : chosenNotebooks) {
+                        System.out.println(elem.toString());
+                    }
                 }
 
+            } else if (userInput.equals("8")) {
+                flag = false;
+                flag1 = false;
+
+            } else if (userInput.equals("9")) {
+                chosenNotebooks.clear();
+                System.out.println("\nФильры сброшены\n");
+                flag1 = false;
+
+            } else {
+                System.out.println("Вы введи некорректные данные, попробуйте ещё раз;)");
+            }
+
+            if (chosenNotebooks.isEmpty() && flag1) {
+                System.out.println("\nНет подходящих моделей(\nУкажите другие критерии\n");
+            }
+
         }
-        scanner.close();
     }
 
     public static boolean checkInt(String input) {
@@ -258,9 +209,8 @@ public class TechMarket {
             Integer.parseInt(input);
             return true;
         } catch (Exception e) {
-            System.out.println("Вы ввели некорректные данные попробуйте ещё раз;)\n");
+            System.out.println("Вы ввели некорректные данные, попробуйте ещё раз;)\n");
             return false;
         }
     }
-
 }
