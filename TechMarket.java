@@ -57,6 +57,8 @@ public class TechMarket {
                             }
                         }
                     }
+                } else {
+                    continue;
                 }
 
             } else if (userInput.equals("2")) {
@@ -81,6 +83,8 @@ public class TechMarket {
                             }
                         }
                     }
+                } else {
+                    continue;
                 }
 
             } else if (userInput.equals("3")) {
@@ -148,6 +152,8 @@ public class TechMarket {
                             }
                         }
                     }
+                } else {
+                    continue;
                 }
 
             } else if (userInput.equals("6")) {
@@ -172,6 +178,8 @@ public class TechMarket {
                             }
                         }
                     }
+                } else {
+                    continue;
                 }
 
             } else if (userInput.equals("7")) {
@@ -194,10 +202,11 @@ public class TechMarket {
                 flag1 = false;
 
             } else {
-                System.out.println("Вы введи некорректные данные, попробуйте ещё раз;)");
+                System.out.println("Вы ввели некорректные данные, попробуйте ещё раз;)");
+                flag1 = false;
             }
 
-            if (chosenNotebooks.isEmpty() && flag1) {
+            if (chosenNotebooks.isEmpty() && flag1 && checkInt(userInput)) {
                 System.out.println("\nНет подходящих моделей(\nУкажите другие критерии\n");
             }
 
